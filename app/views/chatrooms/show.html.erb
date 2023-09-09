@@ -2,7 +2,7 @@
   <h4 class="title-conversations"><%= @chatroom.name %></h4>
 
   <div class="messages-container">
-    <div class="messages" id="messages">
+    <div class="messages" id="messages_<%= @chatroom.id %>">
       <% @messages.each do |message| %>
         <%= render 'messages/message', message: message, user: current_user %>
       <% end %>
@@ -10,14 +10,15 @@
 
     <div class="form-messages-container">
       <%= simple_form_for [@chatroom, @message],
-          html: { class: 'form-messages',
-                  data: { controller: 'form',
-                          action: "turbo:submit-end->form#resetForm" } } do |f| %>
+                          html: { class: 'form-messages',
+                                  data: { controller: 'form',
+                                          action: "turbo:submit-end->form#resetForm" } } do |f| %>
         <%= f.input :content,
                     label: false,
                     placeholder: "Message ##{@chatroom.name}",
                     wrapper_html: { class: "wrapper-input" },
-                    input_html: { class: 'input-msg' } %>
+                    input_html: { class: 'input-msg',
+                                  data: { form_target: 'input' } } %>
         <%= f.submit "Send", class: "btn btn-send" %>
       <% end %>
     </div>

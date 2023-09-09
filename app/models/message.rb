@@ -7,7 +7,7 @@ class Message < ApplicationRecord
   after_create_commit do
     chatroom.users.each do |user|
       broadcast_prepend_to  "broadcast_to_user_#{user.id}",
-                            target: "messages",
+                            target: "messages_#{chatroom.id}",
                             partial: "messages/message",
                             locals: { user:, message: self }
     end
@@ -23,7 +23,7 @@ class Message < ApplicationRecord
     end
   end
 
-  # Reorder the chatroom list with the last chatroom on top with the last message
+  # Reorder the chatroom list with the last chatroom on top with the latest message
   after_commit do
     chatroom.users.each do |user|
       broadcast_replace_to  "broadcast_to_user_#{user.id}",

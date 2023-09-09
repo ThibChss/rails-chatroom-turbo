@@ -3,6 +3,7 @@ class ChatroomsController < ApplicationController
     @chatroom = Chatroom.find(params[:id])
     @messages = @chatroom.messages.order(created_at: :desc)
     @message = Message.new
-    @chatroom.messages?(current_user).update(viewed: true)
+    @new_messages = @chatroom.messages?(current_user)
+    @new_messages.update(viewed: true)
   end
 end
