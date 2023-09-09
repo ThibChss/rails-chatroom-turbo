@@ -1,2 +1,19 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container-chatrooms">
+
+  <div class="list-chatrooms">
+    <h4 class="title-conversations">Conversations</h4>
+    <div class="list-conversations" id="list_chatrooms_user_<%= current_user.id %>">
+      <%= render 'chatrooms/list_chatrooms', chatrooms: @chatrooms, user: current_user %>
+    </div>
+  </div>
+
+  <div class="show-chatroom">
+    <%= turbo_frame_tag "chatroom_show" do %>
+      <div class="chatroom-display">
+        <h4>Start chatting with your friends</h4>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= console %>

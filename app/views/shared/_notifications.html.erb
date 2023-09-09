@@ -1,0 +1,5 @@
+<div id="notifications_count_<%= chatroom.id %>" class='notifications-count'>
+  <% unless count.zero? %>
+    <span class='notifications'><%= count > 9 ? "+9" : count  %></span>
+  <% end %>
+</div>

@@ -1,6 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :home ]
-
   def home
+    @chatrooms = current_user.chatrooms.order(updated_at: :desc)
   end
 end
