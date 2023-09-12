@@ -15,7 +15,7 @@ class Message < ApplicationRecord
 
   # Display the notification count whenever a message is sent
   after_commit do
-    chatroom.users.each do |user|
+    chatroom.users.excluding(user).each do |user|
       broadcast_replace_to  "broadcast_to_user_#{user.id}",
                             target: "notifications_count_#{chatroom.id}",
                             partial: "shared/notifications",
@@ -24,12 +24,12 @@ class Message < ApplicationRecord
   end
 
   # Reorder the chatroom list with the last chatroom on top with the latest message
-  after_commit do
+  after_create_commit do
     chatroom.users.each do |user|
-      broadcast_replace_to  "broadcast_to_user_#{user.id}",
-                            target: "list_chatrooms_user_#{user.id}",
-                            partial: "chatrooms/list_chatrooms",
-                            locals: { user:, chatrooms: user.chatrooms.order(updated_at: :desc) }
+      broadcast_update_to "broadcast_to_user_#{user.id}",
+                          target: "list_chatrooms_user_#{user.id}",
+                          partial: "chatrooms/list_chatrooms",
+                          locals: { user:, chatrooms: user.chatrooms.order(updated_at: :desc) }
     end
   end
 end
