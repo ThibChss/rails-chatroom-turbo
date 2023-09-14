@@ -1,5 +1,7 @@
-<div id="notifications_count_<%= chatroom.id %>" class='notifications-count'>
+<div id="notifications_count_<%= chatroom.id %>" class='notifications-count' data-frame-target='notifications' data-id="<%= chatroom.id %>">
   <% unless count.zero? %>
-    <span class='notifications'><%= count > 9 ? "+9" : count  %></span>
+    <span class='notifications'>
+      <%= count > 9 ? "+9" : count  %>
+    </span>
   <% end %>
 </div>

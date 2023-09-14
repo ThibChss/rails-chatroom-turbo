@@ -1,23 +1,23 @@
-<div class="container-chatrooms">
+<div class="container-chatrooms" data-controller="frame"
+                                data-frame-chatrooms-value="<%= @chatrooms.to_json %>">
 
   <%# To search on a list:
         - Use gpsearch, send to a frame when validating the search
-        - Or try to make it dynamyc %>
+        - Or try to make it dynamic %>
 
   <div class="list-chatrooms">
     <h4 class="title-conversations">Conversations</h4>
-    <div class="list-conversations" id="list_chatrooms_user_<%= current_user.id %>">
+    <%= turbo_frame_tag "list_chatrooms_user_#{current_user.id}", class: "list-conversations" do %>
       <%= render 'chatrooms/list_chatrooms', chatrooms: @chatrooms, user: current_user %>
-    </div>
+    <% end %>
   </div>
 
   <div class="show-chatroom">
-    <%= turbo_frame_tag "chatroom_show", data: { turbo_frame_params: "chatroom" } do %>
+    <%= turbo_frame_tag "chatroom_show", data: { frame_target: 'frameChatroom',
+                                                  action: 'turbo:frame-render->frame#notificationsToggle' } do %>
       <div class="chatroom-display">
         <h4>Start chatting with your friends</h4>
       </div>
     <% end %>
   </div>
 </div>
-
-<%= console %>

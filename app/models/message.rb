@@ -16,10 +16,10 @@ class Message < ApplicationRecord
   # Display the notification count whenever a message is sent
   after_commit do
     chatroom.users.excluding(user).each do |user|
-      broadcast_replace_to  "broadcast_to_user_#{user.id}",
-                            target: "notifications_count_#{chatroom.id}",
-                            partial: "shared/notifications",
-                            locals: { count: chatroom.messages?(user).count, chatroom: }
+      broadcast_update_to "broadcast_to_user_#{user.id}",
+                          target: "notifications_count_#{chatroom.id}",
+                          partial: "shared/notifications",
+                          locals: { count: chatroom.messages?(user).count, chatroom: }
     end
   end
 

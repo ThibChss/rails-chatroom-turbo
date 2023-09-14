@@ -1,9 +1,11 @@
 <% chatrooms.each_with_index do |chatroom| %>
   <div class="card-chatroom">
     <%= link_to chatroom_path(chatroom), data: { turbo_frame: "chatroom_show" } do %>
-      <%= image_tag "background_#{rand(1..5)}", class: 'image-card' %>
+      <%= image_tag chatroom.image_url, class: 'image-card' %>
       <h5 class="title-card"><%= chatroom.name %></h5>
-      <%= render 'shared/notifications', count: chatroom.messages?(user).count, chatroom: chatroom %>
+      <div class="notifications-count-container">
+        <%= render 'shared/notifications', count: chatroom.messages?(user).count, chatroom: chatroom  %>
+      </div>
     <% end %>
   </div>
 <% end %>
